@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金钱才能测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .result { font-size: 1.5em; margin-top: 20px; }
+        #quiz { display: none; }
+    </style>
+</head>
+<body>
+    <h1>你能赚多少钱？</h1>
+    <button onclick="startQuiz()">开始测试</button>
+    <div id="quiz">
+        <h2>问题 1: 你更喜欢：</h2>
+        <button onclick="answer(1, 'a')">与人合作</button>
+        <button onclick="answer(1, 'b')">独立工作</button>
+    </div>
+    <div class="result" id="result"></div>
+    <script>
+        let score = 0;
+        function startQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            document.querySelector('button').style.display = 'none';
+        }
+        function answer(question, choice) {
+            if (choice === 'a') score++;
+            if (question === 1) showResult();
+        }
+        function showResult() {
+            let resultText = score > 0 ? '你有赚钱的才能！' : '你可能需要一些帮助。';
+            document.getElementById('result').innerText = resultText;
+        }
+    </script>
+</body>
+</html>
