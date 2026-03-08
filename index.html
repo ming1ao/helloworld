@@ -1,59 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz App</title>
+    <title>Chinese Personality Quiz</title>
+    <script>
+        function calculateResult() {
+            const answers = document.querySelectorAll('input[name="question"]:checked');
+            let score = 0;
+            answers.forEach((answer) => {
+                score += parseInt(answer.value);
+            });
+            let result;
+            if (score <= 6) {
+                result = '你是一个热情开朗的人！';
+            } else if (score <= 12) {
+                result = '你是一个思维细腻的人。';
+            } else if (score <= 18) {
+                result = '你是一个务实稳重的人。';
+            } else {
+                result = '你是一个富有创意的人！';
+            }
+            document.getElementById('result').innerText = result;
+        }
+    </script>
     <style>
-        body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #fff;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        button {
-            cursor: pointer;
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 15px 30px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #ff6b81;
-        }
+        body { font-family: Arial, sans-serif; }
+        .question { margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h2>Quiz Title</h2>
-            <p> Quiz content goes here.</p>
-            <button>Take Quiz</button>
+    <h1>中文个性测试</h1>
+    <form>
+        <div class="question">
+            <h2>1. 你通常如何处理压力？</h2>
+            <label><input type="radio" name="question1" value="1">运动</label><br>
+            <label><input type="radio" name="question1" value="2">阅读</label><br>
+            <label><input type="radio" name="question1" value="3">与朋友交流</label><br>
+            <label><input type="radio" name="question1" value="4">沉默思考</label>
         </div>
-        <!-- Add more cards as necessary -->
-    </div>
+        <div class="question">
+            <h2>2. 你偏爱怎样的社交活动？</h2>
+            <label><input type="radio" name="question2" value="1">派对</label><br>
+            <label><input type="radio" name="question2" value="2">小范围聚会</label><br>
+            <label><input type="radio" name="question2" value="3">家庭聚会</label><br>
+            <label><input type="radio" name="question2" value="4">独处</label>
+        </div>
+        <div class="question">
+            <h2>3. 你最喜欢的周末活动是什么？</h2>
+            <label><input type="radio" name="question3" value="1">旅行</label><br>
+            <label><input type="radio" name="question3" value="2">看电影</label><br>
+            <label><input type="radio" name="question3" value="3">参加课程</label><br>
+            <label><input type="radio" name="question3" value="4">宅在家里</label>
+        </div>
+        <button type="button" onclick="calculateResult()">提交</button>
+    </form>
+    <h3>结果:</h3>
+    <div id="result"></div>
 </body>
 </html>
