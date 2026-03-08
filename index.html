@@ -1,38 +1,90 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金钱才能测试</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .result { font-size: 1.5em; margin-top: 20px; }
-        #quiz { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <title>你的性格适合靠什么赚钱？搞钱天赋测试</title>
+  <style>
+    body { font-family: '微软雅黑', Arial, sans-serif; background: #fafafa; margin: 0; padding: 0; }
+    .container { max-width: 480px; margin: 40px auto; background: #fff; padding: 30px 18px; border-radius: 10px; box-shadow: 0 0 12px #eee;}
+    h1 { color: #3066d7;}
+    .question { margin: 18px 0;}
+    .options label { display:block; margin: 6px 0;}
+    #result {padding: 20px 10px; margin-top: 20px; border-radius:8px; background:#e2ecfa;}
+    .btn { padding:8px 18px; background:#387efc; color:#fff; border:none; border-radius:5px; cursor:pointer; font-size:16px;}
+    .btn:active { background:#2653a6;}
+  </style>
 </head>
 <body>
-    <h1>你能赚多少钱？</h1>
-    <button onclick="startQuiz()">开始测试</button>
-    <div id="quiz">
-        <h2>问题 1: 你更喜欢：</h2>
-        <button onclick="answer(1, 'a')">与人合作</button>
-        <button onclick="answer(1, 'b')">独立工作</button>
-    </div>
-    <div class="result" id="result"></div>
-    <script>
-        let score = 0;
-        function startQuiz() {
-            document.getElementById('quiz').style.display = 'block';
-            document.querySelector('button').style.display = 'none';
-        }
-        function answer(question, choice) {
-            if (choice === 'a') score++;
-            if (question === 1) showResult();
-        }
-        function showResult() {
-            let resultText = score > 0 ? '你有赚钱的才能！' : '你可能需要一些帮助。';
-            document.getElementById('result').innerText = resultText;
-        }
-    </script>
+  <div class="container">
+    <h1>搞钱天赋测试</h1>
+    <p>测测你的性格最适合靠什么赚钱？</p>
+    <form id="quizForm">
+      <div class="question">
+        1. 遇到新机会，你一般会？
+        <div class="options">
+          <label><input type="radio" name="q1" value="a" required> 急于尝试看看，实操最重要</label>
+          <label><input type="radio" name="q1" value="b"> 仔细分析风险和回报后再动手</label>
+          <label><input type="radio" name="q1" value="c"> 先"搞流量","广撒网再筛选</label>
+          <label><input type="radio" name="q1" value="d"> 利用别人资源，合作共赢</label>
+        </div>
+      </div>
+      <div class="question">
+        2. 你最得心应手的技能是？
+        <div class="options">
+          <label><input type="radio" name="q2" value="a" required> 沟通表达&说服力</label>
+          <label><input type="radio" name="q2" value="b"> 逻辑分析&策略制定</label>
+          <label><input type="radio" name="q2" value="c"> 创意内容制作</label>
+          <label><input type="radio" name="q2" value="d"> 资源整合&管理</label>
+        </div>
+      </div>
+      <div class="question">
+        3. 你对哪种收入方式最有兴趣？
+        <div class="options">
+          <label><input type="radio" name="q3" value="a" required> 做生意或销售，直接赚佣金</label>
+          <label><input type="radio" name="q3" value="b"> 投资理财，让钱升钱</label>
+          <label><input type="radio" name="q3" value="c"> 运营自媒体，内容变现</label>
+          <label><input type="radio" name="q3" value="d"> 搞圈子、做平台、搞资源分发</label>
+        </div>
+      </div>
+      <button type="submit" class="btn">马上测</button>
+    </form>
+    <div id="result" style="display:none;"></div>
+  </div>
+  <script>
+    const results = {
+      a: {
+        title: "销售/创业型",
+        desc: "你是天生的行动派，适合做销售、创业、电商，边做边学，越做越有劲，谈判能力和洞察商业机会的眼光很强，建议多接触高成交、高利润的项目。"
+      },
+      b: {
+        title: "投资理财型",
+        desc: "你有理性分析的脑力，适合理财、股票、金融、数据分析等领域。你注重长远规划、风险控制，建议学习财商知识，让钱替你赚钱。"
+      },
+      c: {
+        title: "内容创作型",
+        desc: "你创意十足，适合自媒体、短视频、写作、直播等内容变现方式，可以尝试个人IP打造，让内容流量变现为主，多研究引流和爆款技巧。"
+      },
+      d: {
+        title: "运营管理型",
+        desc: "你擅长整合资源、善于协调与组织，适合做社区运营、项目管理、资源中介、分销平台等，建议关注团队协作、链接各类资源，打造自己的利润网络。"
+      }
+    };
+    document.getElementById('quizForm').onsubmit = function(e) {
+      e.preventDefault();
+      let answers = [
+        document.querySelector('input[name="q1"]:checked').value,
+        document.querySelector('input[name="q2"]:checked').value,
+        document.querySelector('input[name="q3"]:checked').value
+      ];
+      // 统计最多的答案
+      let counter = {};
+      answers.forEach(v=>counter[v]=1+(counter[v]||0));
+      let top = Object.entries(counter).sort((a,b)=>b[1]-a[1])[0][0];
+      // 显示结果
+      let r = results[top];
+      document.getElementById('result').innerHTML = `<b>你的搞钱天赋类型：${r.title}</b><br>${r.desc}`;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
 </body>
 </html>
